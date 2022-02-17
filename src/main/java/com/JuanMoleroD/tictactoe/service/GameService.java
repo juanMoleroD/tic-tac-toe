@@ -75,7 +75,7 @@ public class GameService {
         return game;
     }
 
-    private boolean checkWinner(int[][] board, TicToe ticToe) {
+    public boolean checkWinner(int[][] board, TicToe ticToe) {
         int[] boardFlatArray = new int[9];
         int counterIndex = 0;
 
@@ -90,7 +90,7 @@ public class GameService {
 
         for(int i = 0; i<winCombinations.length; i++) {
             int counter = 0;
-            for (int j = 0; j < winCombinations[i][j]; j++) {
+            for (int j = 0; j < winCombinations[i].length; j++) {
                 if(boardFlatArray[winCombinations[i][j]] == ticToe.getValue()) {
                     counter ++;
                     if (counter == 3) {
