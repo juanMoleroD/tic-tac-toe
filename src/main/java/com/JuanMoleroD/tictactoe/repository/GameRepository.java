@@ -14,7 +14,7 @@ public class GameRepository {
         games = new HashMap<>();
     }
 
-    private static synchronized GameRepository getInstance(){
+    public static synchronized GameRepository getInstance(){
         if(instance == null) {
             instance = new GameRepository();
         }
