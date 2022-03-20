@@ -1,38 +1,67 @@
-
-var turns = ["#","#","#","#","#","#","+","#"];
-var computerTurn = "";
+var turns = [["#", "#", "#"], ["#", "#", "#"], ["#", "#", "#"]];
 var turn = "";
 var gameOn = false;
-var count = 0;
 
-function playerTurn (turn, id){
-  var spotTaken = $("#"+id).text();
-  if (spotTaken ==="#"){
-    count++;
-    turns[id] = turn;
-    $("#"+id).text(turn);
-    winCondition(turns,turn);
-    if (gameOn === false){
-      computersTurn();
-      $("#message").html("It's " + turn +"'s turn.");
-      winCondition(turns, computerTurn);
+function playerTurn(turn, id) {
+    if (gameOn) {
+        var spotTaken = $("#" + id).text();
+        if (spotTaken === "#") {
+            makeAMove(playerType, id.split("_")[0], id.split("_")[1]);
+        }
     }
-  }
 }
 
-$(".tic").click(function(){
-  var slot = $(this).attr('id');
-  playerTurn(turn,slot);
-});
-
-function reset(){
-  turns = ["#","#","#","#","#","#","+","#"];
-  count = 0;
-  $(".tic").text("#");
-  gameOn = true;
+function makeAMove(type, xCoordinate, yCoordinate) {
+    $.ajax({
+        url: url + "/game/gameplay",
+        type: 'POST',
+        dataType: "json",
+        contentType: "application/json",
+        data: JSON.stringify({
+            "type": type,
+            "coordinateX": xCoordinate,
+            "coordinateY": yCoordinate,
+            "gameId": gameId
+        }),
+        success: function (data) {
+            gameOn = false;
+            displayResponse(data);
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    })
 }
 
-$("#reset").click(function(){
-  reset();
+function displayResponse(data) {
+    let board = data.board;
+    for (let i = 0; i < board.length; i++) {
+        for (let j = 0; j < board[i].length; j++) {
+            if (board[i][j] === 1) {
+                turns[i][j] = 'X'
+            } else if (board[i][j] === 2) {
+                turns[i][j] = 'O';
+            }
+            let id = i + "_" + j;
+            $("#" + id).text(turns[i][j]);
+        }
+    }
+    if (data.winner != null) {
+        alert("Winner is " + data.winner);
+    }
+    gameOn = true;
+}
+
+$(".tic").click(function () {
+    var slot = $(this).attr('id');
+    playerTurn(turn, slot);
 });
 
+function reset() {
+    turns = [["#", "#", "#"], ["#", "#", "#"], ["#", "#", "#"]];
+    $(".tic").text("#");
+}
+
+$("#reset").click(function () {
+    reset();
+});

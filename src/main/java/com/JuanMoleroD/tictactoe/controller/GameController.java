@@ -10,7 +10,6 @@ import com.JuanMoleroD.tictactoe.model.Player;
 import com.JuanMoleroD.tictactoe.service.GameService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,7 +48,7 @@ public class GameController {
     public ResponseEntity<Game> gameplay(@RequestBody Gameplay request) throws InvalidGameException, NotFoundException {
         log.info("gameplay: {}", request);
         Game game = gameService.gameplay(request);
-        simpMessagingTemplate.convertAndSend("/topic/game-progress/" + game.getGameID(), game);
+        simpMessagingTemplate.convertAndSend("/topic/game-progress/" + game.getGameId(), game);
         return ResponseEntity.ok(game);
     }
 

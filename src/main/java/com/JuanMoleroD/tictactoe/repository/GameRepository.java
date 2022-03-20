@@ -26,7 +26,7 @@ public class GameRepository {
     }
 
     public void setGame(Game game) {
-        games.put(game.getGameID(), game);
+        games.put(game.getGameId(), game);
     }
 
 }

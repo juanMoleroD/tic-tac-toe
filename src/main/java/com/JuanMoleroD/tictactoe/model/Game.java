@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class Game {
 
-    private String gameID;
+    private String gameId;
     private Player player1, player2;
 
     private GameStatus status;
@@ -15,6 +15,6 @@ public class Game {
     private  TicToe winner;
 
     public void setGameId(String newGameID) {
-        this.gameID = newGameID;
+        this.gameId = newGameID;
     }
 }
