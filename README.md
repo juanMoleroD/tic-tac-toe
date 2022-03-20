@@ -1,4 +1,6 @@
 # tic-tac-toe
-Tic Tac Toe game in SpringBoot
+The classic Tic Tac Toe game made in SpringBoot and JavaScript.
 
-Simple Tic Tac Toe game with server side login using a restfull API 
+All the logic is implemented server side in SpringBoot, with a JS frontend than only handles API calls and updating on screen.
+
+Websocket establishes the connection between the two users for immediate updates when they move and a topic to handle the gameplay. 
